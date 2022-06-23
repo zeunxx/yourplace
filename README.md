@@ -16,5 +16,5 @@
 | | 김민서 |   |
 |  | 김민석 |   |
 |  | 박보겸 |   |
-| <img src = "https://github.com/zeunxx.png" width="50%" height="50%"> | [박지은](https://github.com/zeunxx) | Content Cell  |
+| <img src = "https://github.com/zeunxx.png" width="30%" height="30%"> | [박지은](https://github.com/zeunxx) |   |
 
