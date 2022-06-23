@@ -15,8 +15,6 @@
 |<img src = "https://github.com/mimmimkim.png" width="30%" height="30%">| [김민서](https://github.com/mimmimkim) |   |
 | :------------: | :------------: | :-------------: |
 | <img src = "https://github.com/watoo4.png" width="30%" height="30%"> | [김민석](https://github.com/watoo4) |   |
-| :------------: | :------------: | :-------------: |
 |  | 박보겸 |   |
-| :------------: | :------------: | :-------------: |
 | <img src = "https://github.com/zeunxx.png" width="30%" height="30%"> | [박지은](https://github.com/zeunxx) |   |
 
