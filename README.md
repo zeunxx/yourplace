@@ -11,10 +11,10 @@
 #### ✍️ 주요기능 : 
 
 #### 👩‍💻  팀원 및 역할 분담 :
-| 팀원 | 역할 |
-| :------------: | :-------------: |
+|| 팀원 | 역할 |
+| :------------: | | :------------: | :-------------: |
 || 김민서 | Content Cell  |
 || 김민석 | Content Cell  |
 || 박보겸 | Content Cell  |
-| (https://github.com/zeunxx.png) | [박지은](https://github.com/zeunxx) | Content Cell  |
+| https://github.com/zeunxx.png | [박지은](https://github.com/zeunxx) | Content Cell  |
 
