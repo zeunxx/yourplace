@@ -16,5 +16,5 @@
 | Content Cell | 김민서 | Content Cell  |
 | Content Cell | 김민석 | Content Cell  |
 | Content Cell | 박보겸 | Content Cell  |
-| ![](https://github.com/zeunxx.png){: width="100" height="100"} | [박지은](https://github.com/zeunxx) | Content Cell  |
+| ![](https://github.com/zeunxx.png){: width="30" height="30"} | [박지은](https://github.com/zeunxx) | Content Cell  |
 
