@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>user page</title>
+</head>
+<body>
+    <h2>회원 전용 페이지</h2>
+
+    name : <span sec:authentication="name"></span> <br>
+    권한 : <span sec:authentication="authorities"></span> <br>
+
+	찜 목록 
+	<!-- <table class="tb_col">
+		<tr>
+		<th>name</th>
+		<th>총 평점</th>
+		</tr>
+		<tr th:each="place : ${likeList}">
+			<td th:text="${product.rest_name}"></td>
+			<td th:text="${product.rest_total_rate}"></td>
+		</tr>
+	</table> -->
+    <form id="logout" th:action="@{/logout}" method="GET">
+        <input type="submit" value="로그아웃"/>
+    </form> <br>
+
+</body>
+</html>
