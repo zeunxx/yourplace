@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>index page</title>
+    <style>
+	  	.login_page{
+		display: inline;
+		}
+		
+		.user_page{ 
+		display: inline;
+		}
+	  </style>
+</head>
+<body>
+    hello world!!!
+
+    <a th:href="@{/user/signup}">회원가입 페이지로 이동 -></a>
+    <span class="login_page">
+    	<a th:href="@{/user/login}">로그인 페이지로 이동 -></a>
+    </span>
+    <span class="user_page">
+    	<a th:href="@{/user/mypage}">유저 페이지로 이동 -></a>
+    </span>
+</body>
+</html>

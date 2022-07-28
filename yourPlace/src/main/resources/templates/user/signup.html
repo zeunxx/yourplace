@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+	<meta charset="UTF-8">
+	<title>sign up</title>
+	<script>
+	  	function emailCheck(){
+	  		var token = $("input[name='_csrf']").val();
+	  		var header = "X-CSRF-TOKEN";
+	  		
+	  		const email = $("#email").val();
+	  	    if (email == "") {
+	  	        alert("이메일을 입력해주세요! 필수항목입니다.");
+	  	        $("#email").focus();
+	  	        return false;
+	  	    }
+	  				
+	  		$.ajax({
+	  			url : "/user/emailCheck",
+	  			type:"post",
+	  			data:{"email":email},
+	  			beforeSend : function(xhr)
+		  		  {  
+		  		 	 xhr.setRequestHeader(header, token);
+		  		  },
+
+	  			success : function(data){
+	  				if(data==1){ //중복 이메일
+	  					$('.id_ok').css("display","none"); 
+	                    $('.id_already').css("display", "inline-block");
+	                    
+	  				}else if(data==0){
+	                    $('.id_ok').css("display","inline-block"); 
+	                    $('.id_already').css("display", "none");
+	                    $('#email').val()
+	  				}else{
+	  					alert("ajax 오류");
+	  				}
+	  			},
+	  			error: function(request,status,data){
+	  				alert("ajax error! code:" + request.status + "\n" + "error :" + data);
+	  			}
+	  		});
+	  	}
+	  
+	  </script>
+	  <style>
+	  	.id_ok{
+		color:#008000;
+		display: none;
+		}
+		
+		.id_already{
+		color:#6A82FB; 
+		display: none;
+		}
+	  </style>
+	
+  </head>
+ 
+  <body>
+    <h1>Sign Up</h1> <hr>
+
+    <form th:action="@{/user/signup}" method="POST">
+      email : <input type="text" id="email"  placeholder="이메일을 입력하세요" name="email" oninput = "emailCheck()" >
+      <span class="id_ok">사용 가능한 이메일입니다.</span>
+      <span class="id_already">이미 사용중인 아이디입니다.</span>
+      <br>
+      
+      nickname : <input type="text" name="nickname"> <br>
+      password : <input type="password" name="password"> <br>
+      <input type="radio" name="auth" value="ROLE_ADMIN,ROLE_USER"> admin
+      <input type="radio" name="auth" value="ROLE_USER" checked="checked"> user <br>
+      <button type="submit">Join</button>
+    </form> <br>
+	
+    <a href="/user/login">Go to login →</a>
+    
+  
+  	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/register.js"></script>
+  </body>
+</html>
