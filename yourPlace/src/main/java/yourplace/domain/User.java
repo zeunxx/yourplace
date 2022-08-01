@@ -1,8 +1,10 @@
 package yourplace.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -50,7 +52,6 @@ public class User implements UserDetails {
 	
 
 	
-
 	@Builder //빌더 패턴 
 	public User(String email, String nickname ,String password, String auth) {
 		super();
@@ -59,6 +60,9 @@ public class User implements UserDetails {
 		this.password = password;
 		this.auth = auth; 
 	}
+	
+	@OneToMany(mappedBy = "user")
+	private List<Like> CafeLike = new ArrayList<Like>();
 
 
 	

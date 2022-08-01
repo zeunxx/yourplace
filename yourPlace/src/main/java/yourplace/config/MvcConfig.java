@@ -2,11 +2,12 @@ package yourplace.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
 @Configuration
-@ComponentScan(basePackageClasses = MvcConfig.class) 
 public class MvcConfig implements WebMvcConfigurer {
 
   // 요청 - 뷰 연결

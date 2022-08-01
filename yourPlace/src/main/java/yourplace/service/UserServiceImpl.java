@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import yourplace.domain.User;
 import yourplace.dto.UserDto;
-import yourplace.repository.RestLikesRepository;
 import yourplace.repository.UserRepository;
 
 @RequiredArgsConstructor
@@ -26,7 +25,6 @@ import yourplace.repository.UserRepository;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
 	private final UserRepository userRepository;
-	private final RestLikesRepository restLikesRepository;
 
 	/**
 	 * username이 DB에 있는지 확인(findbyemail) 없으면 예외처리

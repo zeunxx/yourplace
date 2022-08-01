@@ -2,6 +2,7 @@ package yourplace.controller;
 
 import java.security.Principal;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +42,7 @@ public class UserController {
 	// 회원 가입 페이지
 	@GetMapping(value="/user/signup") 
 	public String signup_get() throws Exception{
+		System.out.println("유저 회원가입 페이지 들어옴");
 		return "/user/signup";
 	}
 	
@@ -84,20 +86,23 @@ public class UserController {
 	// 마이페이지 로드
 	@RequestMapping("/user/mypage")
 	public String myPage() throws Exception {
-		
 		return "/user/mypage";
 	}
 		
 	// 로그인 페이지 로드
-	@RequestMapping("/user/login")
-	public String login() {
-		System.out.println("유저 로그인 페이지 들어옴");
-		return "/user/login";
+	@GetMapping("/user/login")
+	public String login(@AuthenticationPrincipal User user) {
+		if(user==null) {
+			return "/user/login";
+		}
+		
+		return "/user/mypage";
 	}
 	
 	// 비밀번호 변경 페이지 로드
 	@GetMapping("/user/passwdChange")
 	public String passwdChange_page() {
+		
 		return "/user/passwdChange";
 	}
 	
