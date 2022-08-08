@@ -96,7 +96,7 @@ public class UserController {
 			return "/user/login";
 		}
 		
-		return "/user/mypage";
+		return "redirect:/user/mypage";
 	}
 	
 	// 비밀번호 변경 페이지 로드

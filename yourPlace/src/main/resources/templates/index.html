@@ -23,5 +23,37 @@
     <span class="login_page">
     	<a th:href="@{/user/login}">로그인/유저 페이지로 이동 -></a>
     </span>
+    
+    <Br><br>
+    <div id="todayWeather">
+	    <table border="1">
+			<tr>
+				<th>온도</th>			
+				<th>습도</th>
+				<th>강수형태</th>
+			</tr>
+			<tr>
+				<td>
+					<span th:text="${weatherDto.getT1H()}">온도</span>
+				</td>
+				<td><span th:text="${weatherDto.getREH}">습도</span></td>
+				<td>
+					<div th:switch="${weatherDto.getPTY()}">
+						<span th:case="0">날씨 좋음</span>
+						<span th:case="1">비</span>
+						<span th:case="2">비/눈</span>
+						<span th:case="3">눈</span>
+						<span th:case="4">소나기</span>
+						<span th:case="5">빗방울</span>
+						<span th:case="6">빗방울/눈날림</span>
+						<span th:case="7">눈날림</span>
+					</div>
+				</td>
+			</tr>
+				
+		</table>
+	    
+    
+    </div>
 </body>
 </html>
