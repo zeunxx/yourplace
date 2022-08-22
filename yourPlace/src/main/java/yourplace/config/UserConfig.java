@@ -43,6 +43,7 @@ public class UserConfig extends WebSecurityConfigurerAdapter{
 					.antMatchers("/user/admin").hasRole("ADMIN") // ADMIN만 접근가능
 					.anyRequest().authenticated() // 나머지는 권한 있으면 접근 가능
 					
+					
 			.and()
 				.formLogin() // 로그인 설정
 					.loginPage("/user/login") //로그인 페이지 링크

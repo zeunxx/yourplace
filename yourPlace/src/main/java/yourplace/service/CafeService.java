@@ -18,11 +18,12 @@ import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CafeService {
     private final CafeRepository cafeRepository;
 
 
-    @Transactional
+    
     public Page<Cafe> search(String keyword, Pageable pageable) {
         return cafeRepository.findByCafeNameContaining(keyword,pageable);
     }

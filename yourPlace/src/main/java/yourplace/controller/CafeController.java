@@ -32,7 +32,7 @@ public class CafeController {
 	private final CafeService cafeService;
 
 	 
-	@GetMapping("/user/mypage")
+	@GetMapping("/user/mypage") //마이페이지에 찜목록 출력
 	public String testLike(Model model) throws Exception {
 		
 		//현재 로그인한 객체 정보 얻어옴
@@ -60,7 +60,7 @@ public class CafeController {
 			i++;
 		}
 
-		model.addAttribute("likeList",likeDto);
+//		model.addAttribute("likeList",likeDto);
 		model.addAttribute("cafeInfo",cafe);
 		//ResponseEntity<List<LikeDto>>
 		//return new ResponseEntity<>( likeDto ,HttpStatus.OK);

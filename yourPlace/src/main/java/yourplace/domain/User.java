@@ -24,6 +24,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import yourplace.dto.UserDto;
 
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //불완전한 객체생성 막아줌
@@ -49,8 +50,6 @@ public class User implements UserDetails {
 
 	@Column(nullable=false)
 	private String auth; // 권한
-	
-
 	
 	@Builder //빌더 패턴 
 	public User(String email, String nickname ,String password, String auth) {

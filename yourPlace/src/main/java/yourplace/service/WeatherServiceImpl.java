@@ -6,8 +6,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,11 +21,18 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.RequiredArgsConstructor;
+import yourplace.domain.Cafe;
 import yourplace.dto.WeatherDto;
+import yourplace.repository.CafeRepository;
 
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class WeatherServiceImpl implements WeatherService{
 
+	private final CafeRepository cafeRepository;
+	
 	// 날씨 api의 category
 	enum WeatherValue{ 
 		PTY, REH, RN1, T1H, UUU, VEC, VVV, WSD
@@ -30,10 +43,32 @@ public class WeatherServiceImpl implements WeatherService{
 	public WeatherDto weatherParsing() throws Exception{
 			
 			WeatherDto weatherDto = new WeatherDto();
+			Calendar calendar = new GregorianCalendar();
+			SimpleDateFormat SDF = new SimpleDateFormat("yyyyMMdd");
+			String today = SDF.format(calendar.getTime());		
 			
-			LocalDate now = LocalDate.now();
-			String baseDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-	        String baseTime = "1200";
+			String baseDate = today;
+			
+			SimpleDateFormat format = new SimpleDateFormat ( "HH");		
+			int hour= (Integer.parseInt((format.format (System.currentTimeMillis())))-1);
+
+			String baseTime;
+			if (hour==-1) { // hour가 00시이므로 전날 23시로 설정 
+				baseTime ="2300";
+				
+				//어제날짜 구하기
+				calendar.add(Calendar.DATE, -1);		
+				String yesterday = SDF.format(calendar.getTime());		
+				baseDate = yesterday;
+				
+			}else if(hour==0){ //hour가 01시면 1시 그대로 출력(00로 입력하면 application error남)
+				baseTime = "0100";
+			}else {
+				baseTime = (Integer.toString(hour))+"00";
+			}
+			
+			
+			
 			// 변수 설정
 			String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?"+
 					"serviceKey=K3eWwz0jU2OFSx7ktwhWeKly2%2BtkPvrdtFqlwY13U0jKs9PXfv0O8qXNCUHQaArH1KKgydGBuddB3T%2FHWUJNZw%3D%3D"+
@@ -43,7 +78,7 @@ public class WeatherServiceImpl implements WeatherService{
 					"&base_date="+baseDate+
 					"&base_time="+baseTime+
 					"&nx=60"+
-					"&ny=127"; // 서울의 8월 5일(today로 바꿔야 함) 12시 날씨 정보
+					"&ny=127"; 
 			
 			
 			URL url = new URL(apiUrl);
@@ -52,7 +87,7 @@ public class WeatherServiceImpl implements WeatherService{
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-type", "application/json");
 			
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+"\n"+"Response code: "+conn.getResponseCode());
+			// System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+"\n"+"Response code: "+conn.getResponseCode());
 			
 			BufferedReader rd;
 			if(conn.getResponseCode() >= 200 && conn.getResponseCode()<=300) {
@@ -138,9 +173,56 @@ public class WeatherServiceImpl implements WeatherService{
 				}
 			}
 			
-			weatherDto.setDate("20220805");
-			weatherDto.setTime("1200");
+			weatherDto.setDate(baseDate);
+			weatherDto.setTime(baseTime);
 			
 		return weatherDto;
 	}
+
+	// 날씨 맞춤 가게 추천
+	@Override
+	public List<Cafe> selectWeatherPlace(int weather, double temp) throws Exception {
+			
+		List<Cafe> result=null;
+		if(temp >=28.0) { // 더운날 
+			result = cafeRepository.selectHotWeatherCafe();
+		}else if(temp <= 10.0) {
+			result = cafeRepository.selectColdWeatherCafe();
+		}else {
+			switch(weather) {
+			case 0: // 날씨 좋음
+				result = cafeRepository.selectGoodWeatherCafe();
+				break;
+			case 1 : //비
+				result = cafeRepository.selectRainyWeatherCafe();
+				break;
+			case 2: // 눈
+				result = cafeRepository.selectSnowWeatherCafe();
+				break;
+			case 3: // 눈
+				result = cafeRepository.selectSnowWeatherCafe();
+				break;
+			case 4: // 비 
+				result = cafeRepository.selectRainyWeatherCafe();
+				break;
+			case 5: // 비
+				result = cafeRepository.selectRainyWeatherCafe();
+				break;
+			case 6: // 눈
+				result = cafeRepository.selectSnowWeatherCafe();
+				break;
+			case 7: // 눈
+				result = cafeRepository.selectSnowWeatherCafe();
+				break;
+			default:
+				break;
+				
+			}
+		}
+		
+		
+		
+		return result;
+	}
+
 }

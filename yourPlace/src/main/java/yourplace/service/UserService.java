@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import yourplace.domain.User;
+import yourplace.dto.MailDto;
 import yourplace.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import yourplace.repository.UserRepository;
@@ -32,6 +33,10 @@ public interface UserService {
 	// 비밀번호 변경
 	public int passwdChange(String userId, String newPasswd) throws Exception;
 	
+	// 임시 비밀번호 생성
+	public MailDto createMail(String email) throws Exception;
 	
+	// 임시 비밀번호 메일로 전송
+	public void mailSend(MailDto mailDto) throws Exception;
 
 }

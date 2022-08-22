@@ -23,6 +23,7 @@
     <span class="login_page">
     	<a th:href="@{/user/login}">로그인/유저 페이지로 이동 -></a>
     </span>
+    <a th:href="@{/user/find_pw}" onclick="window.open(this.href, '_blank', 'width=300, height=400'); ">비밀번호 찾기 -></a>
     
     <Br><br>
     <div id="todayWeather">
@@ -53,7 +54,26 @@
 				
 		</table>
 	    
-    
     </div>
+    
+	<br>
+    
+    <div id="todayCafe">
+	    <span>**오늘의 카페 추천** </span>
+		    <table border="1">
+				<tr>
+					<th>카페</th>		
+				
+				</tr>
+				<tr th:each="cafeDto:${cafeDto}">
+					<td><span th:text="${cafeDto.getCafeName()}">리스트</span></td>
+				</tr>
+				
+					
+			</table>
+
+    </div>
+    
+    
 </body>
 </html>

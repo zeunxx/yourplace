@@ -29,6 +29,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Transactional
 	@Query("update User u set u.password=:passwd where u.email=:userId")
 	int passwdChange(@Param("passwd") String passwd,@Param("userId") String userId) throws Exception;
-
-
 }
