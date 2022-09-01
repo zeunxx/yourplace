@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+    <span th:each="pageNum : ${pageList}" th:inline="text">
+        <a th:href="@{'/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+    </span>
+</div>
+
+<!-- 검색 form -->
+<form action="/rest/search" method="GET">
+    <div>
+        <input name="keyword" type="text" placeholder="검색어를 입력해주세요">
+    </div>
+
+    <button>검색하기</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th class="one wide">번호</th>
+        <th class="ten wide">식당</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="rest : ${restList}">
+        <td>
+            <span th:text="${rest.restId}"></span>
+        </td>
+        <td>
+            <a th:href="@{'/detail/' + ${rest.restId}}">
+            <span th:text="${rest.restName}"></span>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!--
+<th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
+    <a th:if="${page != nowPage}" th:href="@{/rest/search(page=${page -1}, searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>
+    <strong th:if="${page == nowPage}" th:text="${page}" style="color:red"></strong>
+</th:block>
+<form th:action="@{/cafe/search}" method="get">
+    <input type="text" name="searchKeyword">
+    <button type="submit">검색</button>
+</form>
+
+-->
+
+
+</body>
+</html>
