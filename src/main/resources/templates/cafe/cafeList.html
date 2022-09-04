@@ -13,7 +13,7 @@
             <tbody>
             <tr th:each="cafe : ${cafes}">
                 <td th:text="${cafe.cafeId}"></td>
-                <td th:text="${cafe.cafeName}"></td>
+                <td> <a th:text="${cafe.cafeName}" th:href="@{/cafe/view(id=${cafe.cafeId})}"></a></td>
             </tr>
             </tbody>
         </table>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import toy1.yourplace.domain.Cafe;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CafeRepository extends JpaRepository<Cafe,Integer>{

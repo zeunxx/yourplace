@@ -25,7 +25,7 @@
         <tr th:each="cafe : ${list}">
             <td th:text="${cafe.cafeId}">1</td>
             <td>
-                <a th:text="${cafe.cafeName}"></a>
+                <a th:text="${cafe.cafeName}" th:href="@{/cafe/view(id=${cafe.cafeId})}"></a>
             </td>
         </tr>
         </tbody>
