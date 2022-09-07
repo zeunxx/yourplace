@@ -26,7 +26,7 @@ public class UserConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	// 인증 무시할 경로(css,js,img,h2-console은 인증하지 않아도 접근 가능해야함)
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/css/**","/js/**","/img/**","h2-console/**","/login");
+		web.ignoring().antMatchers("/css/**","/js/**","/img/**","/favicon.ico", "/resources/**", "/error","/login");
 	}
 
 	
