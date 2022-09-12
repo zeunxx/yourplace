@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>비밀번호 변경</title>
+    <style>
+	  	.pw_match {
+		color:green;
+		display: none;
+		}
+		
+		.pw_mismatch {
+		color:red; 
+		display: none;
+		}
+		.new_pw_match {
+		color:green;
+		display: none;
+		}
+		
+		.new_pw_mismatch {
+		color:red; 
+		display: none;
+		}
+	  </style>
+</head>
+<body>
+    <h2><span sec:authentication="name"></span>님의 비밀번호 변경 페이지</h2>
+
+     <form th:action="@{/user/passwdChange}" method="POST">
+
+      현재 비밀번호 : <input type="password" id="nowPasswd"  placeholder="현재 비밀번호" name="nowPasswd" oninput="nowPwCheck()">
+      <span class="pw_match">okokok</span>
+      <span class="pw_mismatch">xxxx</span><Br>
+      새 비밀번호 : <input type="password" id="newPasswd"  placeholder="새 비밀번호" name="newPasswd"> <br>
+      새 비밀번호 : <input type="password" id="newPasswdCheck"  placeholder="새 비밀번호 확인" name="newPasswdCheck" oninput="pwCheckMore()" >
+      <span class="new_pw_match">okokok</span>
+      <span class="new_pw_mismatch">xxxx</span><Br>
+      <button type="submit">Join</button>
+      
+      
+      <!-- 현재 비밀번호와 새로운 비밀번호가 같다면 새로운 비번 바꾸게 해야댐 -->
+      <!-- new pw와 new pw check가 다르다면 가입안되게 해야댐 -->
+    </form> <br>
+    
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/register.js"></script>
+	<script>
+	  	function nowPwCheck(){
+	  		var token = $("input[name='_csrf']").val();
+	  		var header = "X-CSRF-TOKEN";
+	  		
+	  		const passwd = $("#nowPasswd").val();
+	  	    if (passwd == "") {
+	  	        alert("현재 비밀번호를 입력해주세요.");
+
+	  	        return false;
+	  	    }
+	  				
+	  		$.ajax({
+	  			url : "/user/passwdCheck",
+	  			type:"post",
+	  			data:{"passwd":passwd},
+	  			beforeSend : function(xhr)
+		  		  {  
+		  		 	 xhr.setRequestHeader(header, token);
+		  		  },
+
+	  			success : function(data){
+	  				if(data==1){ //비번 일치
+	  					$('.pw_match').css("display","inline-block"); 
+	                    $('.pw_mismatch').css("display", "none");
+	                    
+	  				}else if(data==0){ //비번 불일치
+	  					$('.pw_match').css("display","none"); 
+	                    $('.pw_mismatch').css("display", "inline-block");
+	  				}else{
+	  					alert("ajax 오류");
+	  				}
+	  			},
+	  			error: function(request,status,data){
+	  				alert("ajax error! code:" + request.status + "\n" + "error :" + data);
+	  			}
+	  		});
+	  	}
+	  	
+	  	function pwCheckMore(){
+	  		const newPasswd = $("#newPasswd").val();
+	  		const newPasswdCheck = $("#newPasswdCheck").val();
+	  	    if (newPasswd==newPasswdCheck) {
+	  	    	$('.new_pw_match').css("display","inline-block"); 
+                $('.new_pw_mismatch').css("display", "none");
+	  	    }else{
+	  	    	$('.new_pw_match').css("display","none"); 
+                $('.new_pw_mismatch').css("display", "inline-block");
+	  	    }
+	  	}
+	  
+	  </script>
+</body>
+</html>

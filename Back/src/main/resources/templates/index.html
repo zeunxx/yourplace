@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>index page</title>
+    <style>
+	  	.login_page{
+		display: inline;
+		}
+		
+		.user_page{ 
+		display: inline;
+		}
+	  </style>
+</head>
+<body>
+    hello world!!!<Br><Br>
+
+    <a th:href="@{/user/signup}">회원가입 페이지로 이동 -></a><br><Br>
+    <span class="login_page">
+    	<a th:href="@{/user/login}">로그인/유저 페이지로 이동 -></a>
+    </span>
+    <a th:href="@{/user/find_pw}" onclick="window.open(this.href, '_blank', 'width=300, height=400'); ">비밀번호 찾기 -></a>
+    
+    <Br><br>
+    <div id="todayWeather">
+	    <table border="1">
+			<tr>
+				<th>온도</th>			
+				<th>습도</th>
+				<th>강수형태</th>
+			</tr>
+			<tr>
+				<td>
+					<span th:text="${weatherDto.getT1H()}">온도</span>
+				</td>
+				<td><span th:text="${weatherDto.getREH}">습도</span></td>
+				<td>
+					<div th:switch="${weatherDto.getPTY()}">
+						<span th:case="0">날씨 좋음</span>
+						<span th:case="1">비</span>
+						<span th:case="2">비/눈</span>
+						<span th:case="3">눈</span>
+						<span th:case="4">소나기</span>
+						<span th:case="5">빗방울</span>
+						<span th:case="6">빗방울/눈날림</span>
+						<span th:case="7">눈날림</span>
+					</div>
+				</td>
+			</tr>
+				
+		</table>
+	    
+    </div>
+    
+	<br>
+    
+    <div id="todayCafe">
+	    <span>**오늘의 카페 추천** </span>
+		    <table border="1">
+				<tr>
+					<th>카페</th>		
+				
+				</tr>
+				<tr th:each="cafeDto:${cafeDto}">
+					<td><span th:text="${cafeDto.getCafeName()}">리스트</span></td>
+				</tr>
+				
+					
+			</table>
+
+    </div>
+    <Br>
+    ** 카페 검색 **<br>
+    <form action="/cafe/cafeList" method="get">
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="keyword" placeholder="이름을
+입력하세요">
+        </div>
+        <button type="submit">등록</button>
+    </form>
+    
+    
+    <br>
+    ** 식당 검색 **<br>
+    <form action="/rest/restList" method="get">
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="keyword" placeholder="이름을
+입력하세요">
+        </div>
+        <button type="submit">등록</button>
+    </form>
+    
+</body>
+</html>

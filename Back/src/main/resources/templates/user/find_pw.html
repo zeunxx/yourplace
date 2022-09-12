@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <title>비밀번호찾기</title>
+    <script>
+    	
+    </script>
+  </head>
+  	<style>
+	  	.pass_ok{
+		color:#008000;
+		
+		}
+		
+		.pass_x{
+		color:red;
+		
+		}
+		.fieldError {
+            color: #bd2130;
+        }
+	</style>
+  
+  
+  <body>
+  <h1>비밀번호 찾기</h1>
+  
+	<form th:action="@{/user/find_pw_form}" method="POST">
+       <div> 
+      	<label th:for="email">이메일</label>
+      	<input type="text" id="email"  placeholder="이메일을 입력하세요" name="email" >
+      	<div th:if="${result!=null}">
+      		<span th:if="${result}"><span class="pass_ok" >임시비번전송</span></span>
+      		<span th:if="${!result}"><span class="pass_x" >이멜없음</span></span>
+      	</div>
+      
+      	      	
+      </div>
+      
+        <button type="submit">임시 비밀번호 보내기</button>
+    </form> <br>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/register.js"></script>
+  </body>
+</html>

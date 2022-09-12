@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rest : ${rests}">
+                <td th:text="${rest.restId}"></td>
+                <td> <a th:text="${rest.restName}" th:href="@{/rest/view(id=${rest.restId})}"></a></td>
+            </tr>
+            </tbody>
+        </table>
+        <th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
+            <a th:if="${page != nowPage}" th:href="@{/cafe/list(page=${page -1})}" th:text="${page}"></a>
+            <strong th:if="${page == nowPage}" th:text="${page}" style="color:red"></strong>
+        </th:block>
+    </div>
+
+</div>
+
+<!-- /container -->
+</body>
+</html>
