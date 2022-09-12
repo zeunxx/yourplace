@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>식당 상세 페이지</title>
+
 </head>
 <body>
-<h2 th:text="${restDto.restName}"></h2>
-전화번호
-<p th:text="${restDto.restNumber}"></p><br><br><br>
-영업 시간
-<p th:text="${restDto.restHour}"></p><br><br><br>
-평점
-<p th:text="${restDto.restTotalRate}"></p><br><br><br>
-주소
-<p th:text="${restDto.restAddr}"></p><br><br><br>
-
+<h1 th:text="${rest.restImg}">사진</h1>
+<h1 th:text="${rest.restName}">이름</h1>
+<p th:text="${rest.restSubcategory}"></p>
+<p th:text="${rest.restAddr}">주소</p>
+<p th:text="${rest.restHour}">운영시간</p>
+<p th:text="${rest.restNumber}">전화번호</p>
+<p th:text="${rest.restTotalRate}">별점</p>
 <div id="map" style="width:100%;height:350px;"></div>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=	95a29d21c13160815173140b296bf773&libraries=services"></script>
-<script th:inline="javascript">
 
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=95a29d21c13160815173140b296bf773&libraries=services"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -32,7 +31,7 @@
     var geocoder = new kakao.maps.services.Geocoder();
 
     // 주소로 좌표를 검색합니다
-    geocoder.addressSearch('/*[[${restDto.restAddr}]]*/', function(result, status) {
+    geocoder.addressSearch('/*[[${rest.restAddr}]]*/', function(result, status) {
 
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
@@ -47,7 +46,7 @@
 
             // 인포윈도우로 장소에 대한 설명을 표시합니다
             var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${restDto.restName}]]</div>'
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${rest.restName}]]</div>'
             });
             infowindow.open(map, marker);
 
@@ -55,7 +54,7 @@
             map.setCenter(coords);
         }
     });
+    /*]]>*/
 </script>
-
 </body>
 </html>

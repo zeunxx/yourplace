@@ -42,6 +42,14 @@
     </tr>
     </tbody>
 </table>
+
+<div class ="pageination">
+    <ul>
+        <li th:each="page : ${#numbers.sequence(0,totalPage-1)}">
+            <a th:href="@{/rest/list(page=${pageStat.index})}" th:text="${pageStat.index+1}"</a>
+        </li>
+    </ul>
+</div>
 <!--
 <th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
     <a th:if="${page != nowPage}" th:href="@{/rest/search(page=${page -1}, searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>

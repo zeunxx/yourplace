@@ -1,4 +1,4 @@
-package com.yourplace.rest;
+package yourplace;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

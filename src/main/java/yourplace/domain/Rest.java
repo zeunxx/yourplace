@@ -1,8 +1,10 @@
-package com.yourplace.rest.domain.entity;
+package yourplace.domain;
 
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -28,16 +30,12 @@ public class Rest{
     @Column(name="rest_total_rate")
     private double restTotalRate;
 
-    @Builder
-    public Rest(int restId, String restName, String restAddr, String restHour, String restNumber, double restTotalRate){
-        this.restId = restId;
-        this.restName = restName;
-        this.restAddr = restAddr;
-        this.restHour = restHour;
-        this.restNumber = restNumber;
-        this.restTotalRate = restTotalRate;
+    @Column(name="rest_subcategory")
+    private String restSubcategory;
 
-    }
+    @Column(name="rest_img")
+    private String restImg;
+
 
 
 
