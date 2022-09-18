@@ -27,32 +27,35 @@ public class CafeLikeService {
     
     public List<CafeLike> selectUserLike(User user) throws Exception{
     	UserDto userDto = new UserDto();
-    	List<CafeLike> result = cafeLikeRepository.findAllByUser(user);
-    	
-    	return result;
+
+        return cafeLikeRepository.findAllByUser(user);
     }
     
 
-    /**
-     * 
-     * 카페 
-     *
     public Optional<CafeLike> findLike(User code, Cafe cafeId) {
-        return likeRepository.findByCodeAndCafeId(code, cafeId);
+        return cafeLikeRepository.findByUserAndCafe(code, cafeId);
     }
 
     //좋아요 추가 제거
 
     public boolean addLike(int cafeId, User user) {
         Cafe cafe = cafeRepository.findById(cafeId).orElseThrow();
+
         if(isNotAlreadyLike(user, cafe)) {
-            likeRepository.save(new CafeLike(user, cafe));
+            cafeLikeRepository.save(new CafeLike(user, cafe));
             return true;
         }
         return false;
 
     }
     private boolean isNotAlreadyLike(User user, Cafe cafe) {
-        return likeRepository.findByCodeAndCafeId(user,cafe).isEmpty();
-    }**/
+        return cafeLikeRepository.findByUserAndCafe(user,cafe).isEmpty();
+    }
+
+    public void deleteLike(int cafeId, User user) {
+        Cafe cafe = cafeRepository.findById(cafeId).orElseThrow();
+        CafeLike cafeLike = cafeLikeRepository.findByUserAndCafe(user, cafe).orElseThrow();
+        cafeLikeRepository.delete(cafeLike);
+
+    }
 }

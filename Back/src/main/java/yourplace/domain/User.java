@@ -50,25 +50,20 @@ public class User implements UserDetails {
 
 	@Column(nullable=false)
 	private String auth; // 권한
+
 	
 	@Builder //빌더 패턴 
 	public User(String email, String nickname ,String password, String auth) {
-		super();
 		this.email = email;
 		this.nickname = nickname;
 		this.password = password;
-		this.auth = auth; 
+		this.auth = auth;
 	}
-	
-	// ????
-	public <E> User(String email, String password, List<E> es) {
-    }
-	
+
 	@OneToMany(mappedBy = "user")
 	private List<CafeLike> CafeLike = new ArrayList<CafeLike>();
 
 
-	
 	// 필수 override 메소드 구현
 	
 	/**
@@ -122,5 +117,8 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return true; // 활성화 ㅇ
 	}
-	
+
+
+
+
 }

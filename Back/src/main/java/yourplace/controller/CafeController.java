@@ -85,12 +85,7 @@ public class CafeController {
         return "cafe/cafeView";
     }
 
-//    @GetMapping("test")
-//    public String test(Model model) {
-//        return "test";
-//    }
 
-    /**
     @PostMapping("/cafe/like/{cafeId}")
     public ResponseEntity<String> addLike(@PathVariable int cafeId, @AuthenticationPrincipal MemberAdapter memberAdapter) {
         boolean result = false;
@@ -101,7 +96,7 @@ public class CafeController {
         return result ?
                 new ResponseEntity<>(HttpStatus.OK)
                     :new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }*/
+    }
     
 }
 
