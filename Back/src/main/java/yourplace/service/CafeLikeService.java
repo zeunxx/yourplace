@@ -26,7 +26,6 @@ public class CafeLikeService {
     private final CafeRepository cafeRepository;
     
     public List<CafeLike> selectUserLike(User user) throws Exception{
-    	UserDto userDto = new UserDto();
 
         return cafeLikeRepository.findAllByUser(user);
     }

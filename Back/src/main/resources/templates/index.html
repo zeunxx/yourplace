@@ -21,8 +21,10 @@
 
     <a th:href="@{/user/signup}">회원가입 페이지로 이동 -></a><br><Br>
     <span class="login_page">
-    	<a th:href="@{/user/login}">로그인/유저 페이지로 이동 -></a>
-    </span>
+    	<a th:href="@{/user/login}">로그인 페이지로 이동 -></a>
+    </span><br>
+	<a th:href="@{/user/mypage}">마이 페이지로 이동 -></a>
+
     <a th:href="@{/user/find_pw}" onclick="window.open(this.href, '_blank', 'width=300, height=400'); ">비밀번호 찾기 -></a>
     
     <Br><br>
@@ -77,8 +79,8 @@
     ** 카페 검색 **<br>
     <form action="/cafe/cafeList" method="get">
         <div class="form-group">
-            <label for="name">이름</label>
-            <input type="text" id="name" name="keyword" placeholder="이름을
+            <label for="cafe">이름</label>
+            <input type="text" id="cafe" name="keyword" placeholder="이름을
 입력하세요">
         </div>
         <button type="submit">등록</button>
@@ -89,8 +91,8 @@
     ** 식당 검색 **<br>
     <form action="/rest/restList" method="get">
         <div class="form-group">
-            <label for="name">이름</label>
-            <input type="text" id="name" name="keyword" placeholder="이름을
+            <label for="rest">이름</label>
+            <input type="text" id="rest" name="keyword" placeholder="이름을
 입력하세요">
         </div>
         <button type="submit">등록</button>

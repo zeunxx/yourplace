@@ -29,17 +29,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import yourplace.domain.Cafe;
-import yourplace.domain.CafeLike;
-import yourplace.domain.User;
+import yourplace.domain.*;
 import yourplace.dto.CafeLikeDto;
 import yourplace.dto.MailDto;
+import yourplace.dto.RestLikeDto;
 import yourplace.dto.UserDto;
 import lombok.RequiredArgsConstructor;
-import yourplace.service.CafeLikeService;
-import yourplace.service.CafeService;
-import yourplace.service.UserService;
-import yourplace.service.UserServiceImpl;
+import yourplace.service.*;
 
 
 // controller -> service -> repository?
@@ -51,10 +47,13 @@ public class UserController {
 	
 	private final UserServiceImpl userServiceImpl;
 	private final CafeLikeService cafeLikeService;
+	private final RestLikeService restLikeService;
 	private final CafeService cafeService;
+	private final RestService restService;
 	
 	// 회원 가입 페이지
-	
+
+
 	@GetMapping(value="/signup") 
 	public String signup_get(Model model) throws Exception{
 		model.addAttribute("userDto",new UserDto());
@@ -101,12 +100,9 @@ public class UserController {
 	
 	// 로그인 페이지 로드
 	@GetMapping("/login")
-	public String login(@AuthenticationPrincipal User user) {
-		if(user==null) {
-			return "/user/login";
-		}
-		
-		return "/user/mypage";
+	public String login() {
+
+		return "/user/login";
 	}
 	
 	// 비밀번호 변경 페이지 로드
@@ -181,17 +177,20 @@ public class UserController {
 		
 		//현재 로그인한 객체 정보 얻어옴
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		User user = (User)principal; 
-		
+		User user = (User)principal;
+
+
 		//현재 요저의 찜목록 select 로직 
-		List<CafeLike> likeList = cafeLikeService.selectUserLike(user);
+		List<CafeLike> cafeLikeList = cafeLikeService.selectUserLike(user);
+		List<RestLike> restLikeList =restLikeService.selectUserLike(user);
 		// Like를 LikeDto로 바꾼후 list로 반환
-		List<CafeLikeDto> cafeLikeDto = likeList.stream().map(CafeLikeDto::new).collect(Collectors.toList());
-		
+		List<CafeLikeDto> cafeLikeDto = cafeLikeList.stream().map(CafeLikeDto::new).collect(Collectors.toList());
+		List<RestLikeDto> restLikeDto = restLikeList.stream().map(RestLikeDto::new).collect(Collectors.toList());
 		
 		
 		// 찜목록의 카페id로 카페 findById 실행해 카페정보 불러옴
 		String [][] cafe= new String[cafeLikeDto.size()][2];
+		String [][] rest= new String[restLikeDto.size()][2];
 		int i=0;
 		for(CafeLikeDto like : cafeLikeDto) {
 			Cafe cafeInfo =cafeService.cafeView(like.getCafe_id());
@@ -203,9 +202,20 @@ public class UserController {
 			
 			i++;
 		}
+		i=0;
+		for(RestLikeDto like : restLikeDto) {
+			Rest restInfo =restService.restView(like.getCafe_id());
+
+			String restName = restInfo.getRestName();
+			String restAddr = restInfo.getRestAddr();
+			rest[i][0]=restName;
+			rest[i][1]=restAddr;
+
+			i++;
+		}
 
 		model.addAttribute("cafeInfo",cafe);
-	
+		model.addAttribute("restInfo",rest);
 		return "user/mypage";
 	}
 
