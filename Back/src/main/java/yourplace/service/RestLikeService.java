@@ -4,6 +4,7 @@ package yourplace.service;
 import yourplace.domain.Rest;
 import yourplace.domain.RestLike;
 import yourplace.domain.User;
+import yourplace.dto.UserDto;
 import yourplace.repository.RestLikeRepository;
 import yourplace.repository.RestRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,21 +15,29 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-@Service
 @RequiredArgsConstructor
+@Service
 public class RestLikeService {
-    public final RestLikeRepository restLikeRepository;
-    public final RestRepository restRepository;
 
-   // public Optional<RestLike> findLike(User code, Rest restId) {
-     //   return restLikeRepository.findByCodeAndRestId(code, restId);
-    //}
+    private final RestLikeRepository restLikeRepository;
+    private final RestRepository restRepository;
+
+    public List<RestLike> selectUserLike(User user) throws Exception{
+        UserDto userDto = new UserDto();
+
+        return restLikeRepository.findAllByUser(user);
+    }
+
+
+    public Optional<RestLike> findLike(User code, Rest restId) {
+        return restLikeRepository.findByUserAndRest(code, restId);
+    }
 
     //좋아요 추가 제거
-    /**
-    public boolean addLike(User user, Integer restId) {
-        //null값 넣는건지?
+
+    public boolean addLike(int restId, User user) {
         Rest rest = restRepository.findById(restId).orElseThrow();
+
         if(isNotAlreadyLike(user, rest)) {
             restLikeRepository.save(new RestLike(user, rest));
             return true;
@@ -36,9 +45,14 @@ public class RestLikeService {
         return false;
 
     }
-    
     private boolean isNotAlreadyLike(User user, Rest rest) {
-        return restLikeRepository.findByCodeAndRest(user,rest).isEmpty();
-    }**/
+        return restLikeRepository.findByUserAndRest(user,rest).isEmpty();
+    }
 
+    public void deleteLike(int restId, User user) {
+        Rest rest = restRepository.findById(restId).orElseThrow();
+        RestLike restLike = restLikeRepository.findByUserAndRest(user, rest).orElseThrow();
+        restLikeRepository.delete(restLike);
+
+    }
 }

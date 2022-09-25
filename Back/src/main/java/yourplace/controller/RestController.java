@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class RestController {
@@ -30,10 +29,8 @@ public class RestController {
 
     @GetMapping("/rest/search")
     public String restSearch(Model model,
-                             @PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults(
-                                     {@SortDefault(sort = "restSubcategory", direction = Sort.Direction.DESC),
-                                             @SortDefault(sort = "restName", direction = Sort.Direction.DESC)}
-                             )  Pageable pageable, String searchKeyword) {
+                             @PageableDefault(page = 0, size = 10, sort = "restId", direction = Sort.Direction.DESC) Pageable pageable,
+                             String searchKeyword) {
 
         Page<Rest> list = null;
 
@@ -77,21 +74,17 @@ public class RestController {
         return "rest/restView";
     }
 
-//    @GetMapping("test")
-//    public String test(Model model) {
-//        return "test";
-//    }
 
-    /**
     @PostMapping("/rest/like/{restId}")
     public ResponseEntity<String> addLike(@PathVariable int restId, @AuthenticationPrincipal MemberAdapter memberAdapter) {
         boolean result = false;
 
         if(memberAdapter!=null) {
-            result = restLikeService.addLike(memberAdapter.getUser(),restId);
+            result = restLikeService.addLike(restId,memberAdapter.getUser());
         }
         return result ?
                 new ResponseEntity<>(HttpStatus.OK)
                 :new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }**/
+    }
+
 }
