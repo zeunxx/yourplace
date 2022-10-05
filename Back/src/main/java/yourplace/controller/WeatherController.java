@@ -21,35 +21,38 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
 import yourplace.domain.Cafe;
+import yourplace.domain.Rest;
 import yourplace.dto.CafeDto;
+import yourplace.dto.RestDto;
 import yourplace.dto.WeatherDto;
+import yourplace.service.WeatherService;
 import yourplace.service.WeatherServiceImpl;
 
 @Controller
 @RequiredArgsConstructor
 public class WeatherController {
 
-	private final WeatherServiceImpl weatherServiceImpl;
+	private final WeatherService weatherService;
 	
 	@GetMapping("/") // 인덱스 화면 load & 날씨 띄우기
 	public ModelAndView callApiWithJson() throws Exception{
 
 		// 날씨 api 파싱 로직
-		WeatherDto weatherDto = weatherServiceImpl.weatherParsing();
+		WeatherDto weatherDto = weatherService.weatherParsing();
 		
 		// 날씨 맞춤 가게 검색
 		int weather = weatherDto.getPTY(); // 0: 날씨 좋음 1: 비 : 눈
 		double temp = weatherDto.getT1H();	// 최고기운 : 30도 이상이면 더운날!
 		
-		List<Cafe> cafeList = weatherServiceImpl.selectWeatherPlace(weather,temp);
-	
+
+		List<Rest> restList = weatherService.selectWeather(weather,temp);
+
 		// Like를 LikeDto로 바꾼후 list로 반환
-		List<CafeDto> cafeDto = cafeList.stream().map(CafeDto::new).collect(Collectors.toList());
-	
+		List<RestDto> restDto = restList.stream().map(RestDto::new).collect(Collectors.toList());
 		
 		// model and view 리턴
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("cafeDto",cafeDto);
+		mv.addObject("restDto",restDto);
 		mv.addObject("weatherDto", weatherDto);
 		mv.setViewName("index");
 		

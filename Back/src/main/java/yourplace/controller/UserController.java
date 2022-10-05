@@ -45,7 +45,7 @@ import yourplace.service.*;
 @RequiredArgsConstructor
 public class UserController {
 	
-	private final UserServiceImpl userServiceImpl;
+	private final UserService userService;
 	private final CafeLikeService cafeLikeService;
 	private final RestLikeService restLikeService;
 	private final CafeService cafeService;
@@ -67,7 +67,7 @@ public class UserController {
 	public int emailCheck(@RequestParam("email") String email)throws Exception 
 	{
 		System.out.println("중복체크");
-		int result = userServiceImpl.emailCheck(email);
+		int result = userService.emailCheck(email);
 		return result;
 		
 	}
@@ -80,14 +80,14 @@ public class UserController {
 			return "/user/signup";
 		}
 		
-		int emailResult = userServiceImpl.emailCheck(userDto.getEmail());
+		int emailResult = userService.emailCheck(userDto.getEmail());
 		
 		try {
 			if(emailResult == 1) {
 				System.out.println("회원 가입 실패");
 				return "/user/signup";
 			}else {
-				userServiceImpl.save(userDto);
+				userService.save(userDto);
 				System.out.println("회원 가입 성공");
 				return "/user/login";
 			}
@@ -120,7 +120,7 @@ public class UserController {
 		//로그인된 객체 얻어오기
 		String userId = principal.getName();
 		// 비밀번호 변경
-		if((userServiceImpl.passwdChange(userId,newPasswd))==0) {
+		if((userService.passwdChange(userId,newPasswd))==0) {
 			return "redirect:/user/mypage";
 		}
 		else {
@@ -137,7 +137,7 @@ public class UserController {
 		//로그인된 객체 얻어오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		User user = (User)principal;
-		int result = userServiceImpl.pwCheck(user, nowPasswd);
+		int result = userService.pwCheck(user, nowPasswd);
 		// result =1 이면 현재 비밀번호와 일치 =0이면 불일치
 		return result;
 	}
@@ -155,14 +155,14 @@ public class UserController {
 	@Transactional
 	public String findPwForm(@RequestParam("email") String email, Model model ) throws Exception{
 	
-		int emailResult = userServiceImpl.emailCheck(email);
+		int emailResult = userService.emailCheck(email);
 	
 		boolean result = false;
 		if(emailResult == 1) {
 			result = true;
 			model.addAttribute("result",result);
-			MailDto mailDto = userServiceImpl.createMail(email);
-			userServiceImpl.mailSend(mailDto);
+			MailDto mailDto = userService.createMail(email);
+			userService.mailSend(mailDto);
 			
 		}else {
 			model.addAttribute("result",result);
@@ -180,26 +180,27 @@ public class UserController {
 		User user = (User)principal;
 
 
-		//현재 요저의 찜목록 select 로직 
+		//현재 요저의 찜목록 select 로직
 		List<CafeLike> cafeLikeList = cafeLikeService.selectUserLike(user);
 		List<RestLike> restLikeList =restLikeService.selectUserLike(user);
 		// Like를 LikeDto로 바꾼후 list로 반환
 		List<CafeLikeDto> cafeLikeDto = cafeLikeList.stream().map(CafeLikeDto::new).collect(Collectors.toList());
 		List<RestLikeDto> restLikeDto = restLikeList.stream().map(RestLikeDto::new).collect(Collectors.toList());
-		
-		
+
+
+
 		// 찜목록의 카페id로 카페 findById 실행해 카페정보 불러옴
 		String [][] cafe= new String[cafeLikeDto.size()][2];
 		String [][] rest= new String[restLikeDto.size()][2];
 		int i=0;
 		for(CafeLikeDto like : cafeLikeDto) {
 			Cafe cafeInfo =cafeService.cafeView(like.getCafe_id());
-		
+
 			String cafeName = cafeInfo.getCafeName();
 			String cafeAddr = cafeInfo.getCafeAddr();
 			cafe[i][0]=cafeName;
 			cafe[i][1]=cafeAddr;
-			
+
 			i++;
 		}
 		i=0;
@@ -210,12 +211,16 @@ public class UserController {
 			String restAddr = restInfo.getRestAddr();
 			rest[i][0]=restName;
 			rest[i][1]=restAddr;
+			System.out.println(rest[i][0]);
 
 			i++;
 		}
 
+
+
 		model.addAttribute("cafeInfo",cafe);
 		model.addAttribute("restInfo",rest);
+
 		return "user/mypage";
 	}
 

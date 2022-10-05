@@ -23,8 +23,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.RequiredArgsConstructor;
 import yourplace.domain.Cafe;
+import yourplace.domain.Rest;
 import yourplace.dto.WeatherDto;
 import yourplace.repository.CafeRepository;
+import yourplace.repository.RestRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ import yourplace.repository.CafeRepository;
 public class WeatherServiceImpl implements WeatherService{
 
 	private final CafeRepository cafeRepository;
+	private final RestRepository restRepository;
 	
 	// 날씨 api의 category
 	enum WeatherValue{ 
@@ -181,38 +184,38 @@ public class WeatherServiceImpl implements WeatherService{
 
 	// 날씨 맞춤 가게 추천
 	@Override
-	public List<Cafe> selectWeatherPlace(int weather, double temp) throws Exception {
+	public List<Rest> selectWeather(int weather, double temp) throws Exception {
 			
-		List<Cafe> result=null;
+		List<Rest> result=null;
 		if(temp >=28.0) { // 더운날 
-			result = cafeRepository.selectHotWeatherCafe();
+			result = restRepository.selectHotWeather();
 		}else if(temp <= 10.0) {
-			result = cafeRepository.selectColdWeatherCafe();
+			result = restRepository.selectColdWeather();
 		}else {
 			switch(weather) {
 			case 0: // 날씨 좋음
-				result = cafeRepository.selectGoodWeatherCafe();
+				result = restRepository.selectGoodWeather();
 				break;
 			case 1 : //비
-				result = cafeRepository.selectRainyWeatherCafe();
+				result = restRepository.selectRainyWeather();
 				break;
 			case 2: // 눈
-				result = cafeRepository.selectSnowWeatherCafe();
+				result = restRepository.selectSnowWeather();
 				break;
 			case 3: // 눈
-				result = cafeRepository.selectSnowWeatherCafe();
+				result = restRepository.selectSnowWeather();
 				break;
 			case 4: // 비 
-				result = cafeRepository.selectRainyWeatherCafe();
+				result = restRepository.selectRainyWeather();
 				break;
 			case 5: // 비
-				result = cafeRepository.selectRainyWeatherCafe();
+				result = restRepository.selectRainyWeather();
 				break;
 			case 6: // 눈
-				result = cafeRepository.selectSnowWeatherCafe();
+				result = restRepository.selectSnowWeather();
 				break;
 			case 7: // 눈
-				result = cafeRepository.selectSnowWeatherCafe();
+				result = restRepository.selectSnowWeather();
 				break;
 			default:
 				break;
@@ -224,5 +227,7 @@ public class WeatherServiceImpl implements WeatherService{
 		
 		return result;
 	}
+
+
 
 }

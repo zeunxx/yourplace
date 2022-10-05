@@ -24,8 +24,8 @@ public class RestLikeService {
 
     public List<RestLike> selectUserLike(User user) throws Exception{
         UserDto userDto = new UserDto();
-
-        return restLikeRepository.findAllByUser(user);
+        List<RestLike> result = restLikeRepository.findAllByUser(user);
+        return result;
     }
 
 
